@@ -34,7 +34,6 @@ export const signin = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        sameSite: "none",
         expires: expiryDate,
       })
       .status(200)
@@ -57,25 +56,26 @@ export const google = async (req, res, next) => {
       res
         .cookie("access_token", token, {
           httpOnly: true,
-          sameSite: "none",
           expires: expiryDate,
         })
         .status(200)
         .json({
           message: "Login successful",
-          user: newUser,
+          user,
         });
     } else {
       const randomPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
       const hashedPassword = bcryptjs.hashSync(randomPassword, 10);
+      console.log("AYA h kya yaha pr :: ji han aya h");
       const newUser = new User({
         username: req.body.name,
         email: req.body.email,
         password: hashedPassword,
         profilePicture: req.body.photo,
       });
+      console.log("AYA h kya yaha pr :: ji han aya h");
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: hashedPassword2, ...rest } = newUser._doc;
@@ -83,7 +83,6 @@ export const google = async (req, res, next) => {
       res
         .cookie("access_token", token, {
           httpOnly: true,
-          sameSite: "none",
           expires: expiryDate,
         })
         .status(200)
