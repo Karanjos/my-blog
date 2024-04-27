@@ -37,10 +37,7 @@ export const signin = async (req, res, next) => {
         expires: expiryDate,
       })
       .status(200)
-      .json({
-        message: "Login successful",
-        rest,
-      });
+      .json(rest);
   } catch (error) {
     next(error);
   }
