@@ -8,6 +8,7 @@ const SignUp = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -94,18 +95,33 @@ const SignUp = () => {
         </div>
         {/** right side */}
         <div className=" flex-1">
-          <form className=" flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className=" flex flex-col gap-4">
             <div className="">
               <Label value="Username" />
-              <TextInput type="text" placeholder="Username" id="username" />
+              <TextInput
+                type="text"
+                placeholder="Username"
+                id="username"
+                onChange={handleChange}
+              />
             </div>
             <div className="">
               <Label value="Email" />
-              <TextInput type="email" placeholder="Email" id="email" />
+              <TextInput
+                type="email"
+                placeholder="Email"
+                id="email"
+                onChange={handleChange}
+              />
             </div>
             <div className="">
               <Label value="Password" />
-              <TextInput type="password" placeholder="Password" id="password" />
+              <TextInput
+                type="password"
+                placeholder="Password"
+                id="password"
+                onChange={handleChange}
+              />
             </div>
             <Button
               gradientDuoTone="purpleToPink"

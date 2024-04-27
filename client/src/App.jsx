@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Projects from "./pages/Projects";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
