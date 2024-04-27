@@ -1,12 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Button, Navbar, TextInput } from "flowbite-react";
+import { useSelector, useDispatch } from "react-redux";
+import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { toggleTheme } from "../redux/theme/themeSlice";
 
 const Header = () => {
   const path = useLocation().pathname;
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state) => state.theme);
+
   return (
     // <div className="bg-slate-200">
     //   <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
@@ -55,13 +59,46 @@ const Header = () => {
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
         <AiOutlineSearch />
       </Button>
-      <div className=" flex gap-2 md:order-2">
-        <Button className=" w-12 h-10 hidden sm:inline" color="gray" pill>
-          <FaMoon />
+      <div className=" flex gap-4 md:order-2">
+        <Button
+          className=" w-12 h-10 hidden sm:inline"
+          color="gray"
+          pill
+          onClick={() => dispatch(toggleTheme())}
+        >
+          {theme === "light" ? <FaMoon /> : <FaSun />}
         </Button>
-        <Link to="/sign-in">
-          <Button gradientDuoTone="purpleToBlue" outline>Sign In</Button>
-        </Link>
+        {currentUser ? (
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar
+                alt="user_profile"
+                img={currentUser.profilePicture}
+                rounded
+              />
+            }
+          >
+            <Dropdown.Header>
+              <span className="block text-sm">@{currentUser.username}</span>
+              <span className="block text-sm font-medium truncate">
+                {currentUser.email}
+              </span>
+            </Dropdown.Header>
+            <Link to="dashboard?tab=profile">
+              <Dropdown.Item>Profile</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item>Sign Out</Dropdown.Item>
+          </Dropdown>
+        ) : (
+          <Link to="/sign-in">
+            <Button gradientDuoTone="purpleToBlue" outline>
+              Sign In
+            </Button>
+          </Link>
+        )}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
@@ -73,19 +110,6 @@ const Header = () => {
         </Navbar.Link>
         <Navbar.Link active={path === "/projects"} as={"div"}>
           <Link to="/projects">Projects</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === "/profile" || "/signin"} as={"div"}>
-          <Link to="/profile">
-            {currentUser ? (
-              <img
-                src={currentUser.profilePicture}
-                alt="profile"
-                className="w-8 h-8 rounded-full object-cover"
-              />
-            ) : (
-              "Sign In"
-            )}
-          </Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

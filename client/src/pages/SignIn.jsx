@@ -7,7 +7,7 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import OAuth from "../components/OAuth";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Alert, Button, Label, TextInput } from "flowbite-react";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -33,15 +33,15 @@ const SignIn = () => {
       });
       const data = await response.json();
       if (data.success === false) {
-        dispatch(signInFailure(data));
+        dispatch(signInFailure(data.message));
         return;
       }
-      dispatch(signInSuccess(data));
       if (response.ok) {
+        dispatch(signInSuccess(data));
         navigate("/");
       }
     } catch (error) {
-      dispatch(signInFailure(error));
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -98,6 +98,11 @@ const SignIn = () => {
         </div>
         {/** right side */}
         <div className=" flex-1">
+          {errorMessage && (
+            <Alert className="mb-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
           <form onSubmit={handleSubmit} className=" flex flex-col gap-4">
             <div className="">
               <Label value="Email" />
@@ -124,6 +129,7 @@ const SignIn = () => {
             >
               {loading ? "Loading..." : "Sign In"}
             </Button>
+            <OAuth />
           </form>
           <div className=" flex gap-2 text-sm mt-5">
             <span className="">Do&apos;nt have an account?</span>
