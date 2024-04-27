@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+  console.log("Server is running on port 3000");
 });
 
 app.use("/api/user", userRoutes);
@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
   const message = err.message || "Internal Server Error";
   return res.status(statusCode).json({
     success: false,
-    message,
     statusCode,
+    message,
   });
 });

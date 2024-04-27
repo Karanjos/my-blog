@@ -60,7 +60,7 @@ const Header = () => {
           <FaMoon />
         </Button>
         <Link to="/sign-in">
-          <Button gradientDuoTone="purpleToBlue">Sign In</Button>
+          <Button gradientDuoTone="purpleToBlue" outline>Sign In</Button>
         </Link>
         <Navbar.Toggle />
       </div>
@@ -73,6 +73,19 @@ const Header = () => {
         </Navbar.Link>
         <Navbar.Link active={path === "/projects"} as={"div"}>
           <Link to="/projects">Projects</Link>
+        </Navbar.Link>
+        <Navbar.Link active={path === "/profile" || "/signin"} as={"div"}>
+          <Link to="/profile">
+            {currentUser ? (
+              <img
+                src={currentUser.profilePicture}
+                alt="profile"
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            ) : (
+              "Sign In"
+            )}
+          </Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
