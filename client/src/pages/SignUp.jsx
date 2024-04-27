@@ -5,7 +5,7 @@ import { Button, Label, TextInput } from "flowbite-react";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -14,9 +14,12 @@ const SignUp = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.username || !formData.email || !formData.password) {
+      return setError("Please fill in all the fields");
+    }
     try {
       setLoading(true);
-      setError(false);
+      setError(null);
       const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -25,15 +28,17 @@ const SignUp = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      setLoading(false);
       if (data.success === false) {
-        setError(true);
+        setError(data.message);
         return;
       }
-      navigate("/sign-in");
+      setLoading(false);
+      if (response.ok) {
+        navigate("/sign-in");
+      }
     } catch (error) {
       setLoading(false);
-      setError(true);
+      setError(error.message);
     }
   };
 
@@ -109,7 +114,7 @@ const SignUp = () => {
               <Label value="Email" />
               <TextInput
                 type="email"
-                placeholder="Email"
+                placeholder="any@mail.com"
                 id="email"
                 onChange={handleChange}
               />
@@ -118,7 +123,7 @@ const SignUp = () => {
               <Label value="Password" />
               <TextInput
                 type="password"
-                placeholder="Password"
+                placeholder="********"
                 id="password"
                 onChange={handleChange}
               />
