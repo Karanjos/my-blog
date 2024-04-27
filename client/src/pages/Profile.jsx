@@ -14,8 +14,8 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signOut,
 } from "../redux/user/userSlice";
-import { set } from "mongoose";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -25,7 +25,6 @@ const Profile = () => {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
-  console.log(formData);
   const fileRef = useRef(null);
 
   useEffect(() => {
@@ -103,9 +102,19 @@ const Profile = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await fetch("/api/auth/signout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className=" p-3 max-w-lg mx-auto">
       <h1 className=" text-3xl font-semibold text-center my-7">Profile</h1>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="file"
@@ -130,17 +139,12 @@ const Profile = () => {
           ) : filePercentage > 0 && filePercentage < 100 ? (
             <span className=" text-slate-700">{`Uploading ${filePercentage} %`}</span>
           ) : filePercentage === 100 ? (
-            <span className=" text-green-700">Image uploaded successfully</span>
+            <span className=" text-green-700">
+              Image uploaded successfully!
+            </span>
           ) : (
             ""
           )}
-        </p>
-        {/** displaying error related to form submission */}
-        <p className=" text-red-700  text-sm self-center">
-          {error && "Somethin went wrong!"}
-        </p>
-        <p className=" text-green-700  text-sm self-center">
-          {updateSuccess && "User updated successfully!"}
         </p>
         <input
           type="text"
@@ -176,8 +180,15 @@ const Profile = () => {
         >
           Delete Account
         </span>
-        <span className=" text-red-700 cursor-pointer">Sign out</span>
+        <span onClick={handleSignOut} className=" text-red-700 cursor-pointer">
+          Sign out
+        </span>
       </div>
+      {/** displaying error related to form submission */}
+      <p className=" text-red-700 mt-5">{error && "Somethin went wrong!"}</p>
+      <p className=" text-green-700 mt-5">
+        {updateSuccess && "User updated successfully!"}
+      </p>
     </div>
   );
 };
