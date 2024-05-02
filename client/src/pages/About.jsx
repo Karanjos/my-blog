@@ -1,24 +1,35 @@
-const About = () => {
+export default function About() {
   return (
-    <div className="px-4 py-12 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold  mb-4 text-slate-800">About</h1>
-      <p className="mb-4 text-slate-700">
-        This is a MERN (MongoDB, Express, React, Node.js) stack application with
-        authentication. It allows users to sign up, log in, and log out, and
-        provides access to protected routes only for authenticated users.
-      </p>
-      <p className="mb-4 text-slate-700">
-        The front-end of the application is built with React and uses React
-        Router for client-side routing. The back-end is built with Node.js and
-        Express, and uses MongoDB as the database. Authentication is implemented
-        using JSON Web Tokens (JWT).
-      </p>
-      <p className="mb-4 text-slate-700">
-        This application is intended as a starting point for building full-stack
-        web applications with authentication using the MERN stack. Feel free to
-        use it as a template for your own projects!
-      </p>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="max-w-2xl mx-auto p-3 text-center">
+        <div>
+          <h1 className="text-3xl font font-semibold text-center my-7">
+            About Sahand' Blog
+          </h1>
+          <div className="text-md text-gray-500 flex flex-col gap-6">
+            <p>
+              Welcome to Sahand's Blog! This blog was created by Sahand Ghavidel
+              as a personal project to share his thoughts and ideas with the
+              world. Sahand is a passionate developer who loves to write about
+              technology, coding, and everything in between.
+            </p>
+
+            <p>
+              On this blog, you'll find weekly articles and tutorials on topics
+              such as web development, software engineering, and programming
+              languages. Sahand is always learning and exploring new
+              technologies, so be sure to check back often for new content!
+            </p>
+
+            <p>
+              We encourage you to leave comments on our posts and engage with
+              other readers. You can like other people's comments and reply to
+              them as well. We believe that a community of learners can help
+              each other grow and improve.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-export default About;
+}
