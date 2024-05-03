@@ -39,3 +39,7 @@ body {
 .dark .post-content a {
   color: rgb(73, 149, 199);
 }
+
+.searchbar input {
+  width: 100px;
+}

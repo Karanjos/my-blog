@@ -21,6 +21,8 @@ const Header = () => {
     const searchTermFromUrl = urlParams.get("searchTerm");
     if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
+    } else {
+      setSearchTerm(null); // Reset searchTerm to null if searchTermFromUrl is null
     }
   }, [location.search]);
 
@@ -49,32 +51,6 @@ const Header = () => {
   };
 
   return (
-    // <div className="bg-slate-200">
-    //   <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
-    //     <Link to="/">
-    //       <h1 className="font-bold">Auth App</h1>
-    //     </Link>
-    //     <ul className="flex gap-4">
-    //       <Link to="/">
-    //         <li>Home</li>
-    //       </Link>
-    //       <Link to="/about">
-    //         <li>About</li>
-    //       </Link>
-    //       <Link to="/profile">
-    //         {currentUser ? (
-    //           <img
-    //             src={currentUser.profilePicture}
-    //             alt="profile"
-    //             className="w-8 h-8 rounded-full object-cover"
-    //           />
-    //         ) : (
-    //           <li>Sign In</li>
-    //         )}
-    //       </Link>
-    //     </ul>
-    //   </div>
-    // </div>
     <Navbar className=" border-b-2">
       <Link
         to="/"
@@ -90,22 +66,19 @@ const Header = () => {
           type="text"
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
-          className="hidden lg:inline"
+          className="hidden md:inline"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
-      <Button className="w-12 h-10 lg:hidden" color="gray" pill>
-        <AiOutlineSearch />
-      </Button>
       <div className=" flex gap-4 md:order-2">
         <Button
-          className=" w-12 h-10 hidden sm:inline"
+          className="w-12 h-10 hidden sm:inline"
           color="gray"
           pill
           onClick={() => dispatch(toggleTheme())}
         >
-          {theme === "light" ? <FaMoon /> : <FaSun />}
+          {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser ? (
           <Dropdown
@@ -130,6 +103,21 @@ const Header = () => {
             </Link>
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item className="" onClick={() => dispatch(toggleTheme())}>
+              {" "}
+              {theme === "light" ? (
+                <>
+                  Dark Mode
+                  <FaSun className=" ml-2" />
+                </>
+              ) : (
+                <>
+                  Light Mode
+                  <FaMoon className=" ml-2" />
+                </>
+              )}
+            </Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to="/sign-in">
@@ -150,6 +138,16 @@ const Header = () => {
         <Navbar.Link active={path === "/projects"} as={"div"}>
           <Link to="/projects">Projects</Link>
         </Navbar.Link>
+        <form onSubmit={handleSubmit} className="mt-4">
+          <TextInput
+            type="text"
+            placeholder="Search..."
+            rightIcon={AiOutlineSearch}
+            className="md:hidden"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </form>
       </Navbar.Collapse>
     </Navbar>
   );
